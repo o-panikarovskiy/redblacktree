@@ -1,11 +1,7 @@
-# Binary Search Tree and Red Black Tree implemenation in typescript
-
-## Intall
-```
-npm i
-```
+# Binary Search Tree and Red Black Tree
 
 ## Usage
+
 ```typescript
 type Entity = { title?: string; id: number };
 
