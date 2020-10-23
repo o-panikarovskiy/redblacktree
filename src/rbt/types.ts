@@ -17,5 +17,5 @@ export type RBTree<T> = Iterable<T | undefined> & {
   add(val: T): DeepReadonly<Node<T>>;
   delete(val: T): DeepReadonly<Node<T>> | undefined;
   find(key: T, root?: Node<T>): DeepReadonly<Node<T>> | undefined;
-  inorder(): Generator<DeepReadonly<Node<T>> | undefined>;
+  inorder(): Generator<DeepReadonly<Node<T>>>;
 };

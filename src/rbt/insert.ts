@@ -40,16 +40,15 @@ export function repairTree<T>(node: Node<T>) {
   return insertCase4(node);
 }
 
-function insertCase1<T>(n: Node<T>): Node<T> {
+function insertCase1<T>(n: Node<T>) {
   n.color = 'B';
-  return n;
 }
 
-function insertCase2<T>(n: Node<T>): Node<T> {
-  return n;
+function insertCase2<T>(n: Node<T>) {
+  return;
 }
 
-function insertCase3<T>(n: Node<T>): Node<T> {
+function insertCase3<T>(n: Node<T>) {
   const p = n.parent as Node<T>;
   const u = uncle(n) as Node<T>;
   const g = grandparent(n) as Node<T>;
@@ -58,10 +57,10 @@ function insertCase3<T>(n: Node<T>): Node<T> {
   u.color = 'B';
   g.color = 'R';
 
-  return repairTree(g);
+  repairTree(g);
 }
 
-function insertCase4<T>(n: Node<T>): Node<T> {
+function insertCase4<T>(n: Node<T>) {
   let p = n.parent as Node<T>;
   let g = grandparent(n) as Node<T>;
 
@@ -84,8 +83,6 @@ function insertCase4<T>(n: Node<T>): Node<T> {
 
   p.color = 'B';
   g.color = 'R';
-
-  return n;
 }
 
 function grandparent<T>(n?: Node<T>) {

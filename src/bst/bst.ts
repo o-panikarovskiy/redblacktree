@@ -56,15 +56,15 @@ export class BinarySearchTree<T> implements BSTree<T> {
         node = node.left;
       }
 
-      node = stack.pop();
+      node = stack.pop() as Node<T>;
       yield node;
-      node = node?.right;
+      node = node.right;
     }
   }
 
   public *[Symbol.iterator]() {
     for (const node of this.inorder()) {
-      yield node?.value;
+      yield node.value;
     }
   }
 }
