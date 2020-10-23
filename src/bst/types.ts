@@ -10,7 +10,7 @@ export type Node<T> = {
   right?: Node<T>;
 };
 
-export type BSTree<T> = Iterable<T | void> & {
+export type BSTree<T> = Iterable<T> & {
   root(): DeepReadonly<Node<T>> | undefined;
   add(val: T): DeepReadonly<Node<T>>;
   delete(val: T): DeepReadonly<Node<T>> | undefined;

@@ -19,6 +19,6 @@ console.log([...tree]); // [ {id: 8}, { id: 9}, {id: 10} ]
 
 // inorder by nodes:
 for (const node of tree.inorder()) {
-  console.log(node?.color);
+  console.log(node.color);
 }
 ```
