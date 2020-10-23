@@ -52,7 +52,7 @@ test('add', (t) => {
   tree.add(24);
   const root = tree.add(18);
 
-  t.deepEqual(tree.toArray(), [3, 5, 10, 18, 20, 24, 25]);
+  t.deepEqual([...tree], [3, 5, 10, 18, 20, 24, 25]);
 
   let n = root;
   while (n.left) {
@@ -77,23 +77,4 @@ test('delete', (t) => {
   tree.add(18);
 
   tree.delete(20);
-});
-
-test('print', (t) => {
-  const tree = new RedBlackTree<number>((a, b) => a - b);
-
-  tree.add(10);
-  tree.add(5);
-  tree.add(20);
-  tree.add(25);
-  tree.add(3);
-  tree.add(24);
-  tree.add(18);
-
-  const res = tree.print();
-
-  t.is(!!res?.['10B'], true);
-  t.is(res?.['10B']?.['-5B']?.['-3R'], null);
-  t.is(res?.['10B']?.['+24R']?.['+25B'], null);
-  t.is(res?.['10B']?.['+24R']?.['-20B']?.['-18R'], null);
 });

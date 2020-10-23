@@ -43,7 +43,7 @@ test('add', (t) => {
   tree.add(24);
   const root = tree.add(18);
 
-  t.deepEqual(tree.toArray(), [3, 5, 10, 18, 20, 24, 25]);
+  t.deepEqual([...tree], [3, 5, 10, 18, 20, 24, 25]);
 
   let n = root;
   while (n.left) {
@@ -65,7 +65,7 @@ test('delete', (t) => {
   tree.add(99);
 
   tree.delete(10);
-  t.deepEqual(tree.toArray(), [-17, -0, 12, 89, 99, 100]);
+  t.deepEqual([...tree], [-17, -0, 12, 89, 99, 100]);
 
   t.is(tree.find(10), undefined);
 
@@ -85,22 +85,4 @@ test('delete', (t) => {
   t.is(root.value, -0);
   t.is(root.left.value, -17);
   t.is(root.right.value, 12);
-});
-
-test('print', (t) => {
-  const tree = new BinarySearchTree<number>((a, b) => a - b);
-
-  tree.add(43);
-  tree.add(12);
-  tree.add(-80);
-  tree.add(0);
-  tree.add(14);
-  tree.add(14);
-  tree.add(14);
-
-  const res = tree.print();
-
-  t.is(!!res?.['43'], true);
-  t.is(res?.['43']?.['-12']?.['--80']?.['+0'], null);
-  t.is(res?.['43']?.['-12']?.['+14']?.['+14']?.['+14'], null);
 });

@@ -1,5 +1,5 @@
 import { insert, repairTree } from './insert.js';
-import { Comparator, DeepReadonly, IStringNode, Node, PrintNode, RBTree } from './types.js';
+import { Comparator, DeepReadonly, Node, RBTree } from './types.js';
 
 export class RedBlackTree<T> implements RBTree<T> {
   protected _root?: Node<T>;
@@ -48,35 +48,25 @@ export class RedBlackTree<T> implements RBTree<T> {
     }
   }
 
-  public print(fn?: PrintNode<T>): IStringNode | null {
-    const printKey = fn || (((n, b) => `${b}${n.value}${n.color}`) as PrintNode<T>);
+  public *inorder() {
+    let node = this._root;
+    const stack: Node<T>[] = [];
 
-    const iterator = (res: IStringNode | null, node?: Node<T>, brunch?: string): IStringNode | null => {
-      if (!node || !res) return res;
+    while (node || stack.length > 0) {
+      while (node) {
+        stack.push(node);
+        node = node.left;
+      }
 
-      const key = printKey(node, brunch);
-      res[key] = !node.left && !node.right ? null : {};
-
-      iterator(res[key], node.left, '-');
-      iterator(res[key], node.right, '+');
-
-      return res;
-    };
-
-    return iterator({}, this._root, '');
+      node = stack.pop();
+      yield node;
+      node = node?.right;
+    }
   }
 
-  public toArray(): readonly T[] {
-    const iterator = (arr: T[], node?: Node<T>) => {
-      if (!node) return arr;
-
-      iterator(arr, node.left);
-      arr.push(node.value);
-      iterator(arr, node.right);
-
-      return arr;
-    };
-
-    return iterator([], this._root);
+  public *[Symbol.iterator]() {
+    for (const node of this.inorder()) {
+      yield node?.value;
+    }
   }
 }

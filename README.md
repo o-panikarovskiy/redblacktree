@@ -5,19 +5,20 @@
 ```typescript
 type Entity = { title?: string; id: number };
 
-const bstree = new BinarySearchTree<Entity>((a, b) => a.id - b.id);
-bstree.add({ id: 10 });
-bstree.add({ id: 9 });
-bstree.add({ id: 8 });
+const tree = new RedBlackTree<Entity>((a, b) => a.id - b.id);
+tree.add({ id: 10 });
+tree.add({ id: 9 });
+tree.add({ id: 8 });
 
-const rbtree = new RedBlackTree<Entity>((a, b) => a.id - b.id);
-rbtree.add({ id: 10 });
-rbtree.add({ id: 9 });
-rbtree.add({ id: 8 });
+// find
+const ent: Entity = { title: 'some obj', id: 9 };
+console.log(tree.find(ent)); // { value:{id: 9}, color:'B', left:{...}, right:{...} } ;
 
-const resBST = bstree.print((n, b) => `${b}${n.value.id}`);
-const resRBT = rbtree.print((n, b) => `${b}${n.value.id}${n.color}`);
+// iterators also works
+console.log([...tree]); // [ {id: 8}, { id: 9}, {id: 10} ]
 
-console.log(JSON.stringify(resBST, null, 2));
-console.log(JSON.stringify(resRBT, null, 2));
+// inorder by nodes:
+for (const node of tree.inorder()) {
+  console.log(node?.color);
+}
 ```
