@@ -16,7 +16,7 @@ export function remove<T>(compare: Comparator<T>, val: T, node?: Node<T>): Node<
     }
 
     let n = node.right;
-    let min = node.value;
+    let min = n.value;
     while (n.left) {
       min = n.left.value;
       n = n.left;

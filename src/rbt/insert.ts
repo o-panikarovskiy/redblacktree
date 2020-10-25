@@ -1,3 +1,4 @@
+import { grandparent, rotateLeft, rotateRight, uncle } from './helpers.js';
 import { Comparator, Node } from './types.js';
 
 export function insert<T>(compare: Comparator<T>, node: Node<T>, root?: Node<T>): Node<T> {
@@ -23,7 +24,7 @@ export function insert<T>(compare: Comparator<T>, node: Node<T>, root?: Node<T>)
   return node;
 }
 
-export function repairTree<T>(node: Node<T>) {
+export function repairInsert<T>(node: Node<T>) {
   if (!node.parent) {
     return insertCase1(node);
   }
@@ -57,7 +58,7 @@ function insertCase3<T>(n: Node<T>) {
   u.color = 'B';
   g.color = 'R';
 
-  repairTree(g);
+  repairInsert(g);
 }
 
 function insertCase4<T>(n: Node<T>) {
@@ -83,65 +84,4 @@ function insertCase4<T>(n: Node<T>) {
 
   p.color = 'B';
   g.color = 'R';
-}
-
-function grandparent<T>(n?: Node<T>) {
-  if (n && n.parent) {
-    return n.parent.parent;
-  }
-}
-
-function uncle<T>(n?: Node<T>) {
-  if (!n) return;
-
-  const g = grandparent(n);
-  if (!g) return;
-
-  if (n.parent === g.left) {
-    return g.right;
-  }
-
-  return g.left;
-}
-
-function rotateLeft<T>(n: Node<T>) {
-  const pivot = n.right as Node<T>;
-
-  pivot.parent = n.parent;
-  if (n.parent) {
-    if (n.parent.left === n) {
-      n.parent.left = pivot;
-    } else {
-      n.parent.right = pivot;
-    }
-  }
-
-  n.right = pivot.left;
-  if (pivot.left) {
-    pivot.left.parent = n;
-  }
-
-  n.parent = pivot;
-  pivot.left = n;
-}
-
-function rotateRight<T>(n: Node<T>) {
-  const pivot = n.left as Node<T>;
-
-  pivot.parent = n.parent;
-  if (n.parent) {
-    if (n.parent.left === n) {
-      n.parent.left = pivot;
-    } else {
-      n.parent.right = pivot;
-    }
-  }
-
-  n.left = pivot.right;
-  if (pivot.right) {
-    pivot.right.parent = n;
-  }
-
-  n.parent = pivot;
-  pivot.right = n;
 }

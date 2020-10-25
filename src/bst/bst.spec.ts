@@ -1,4 +1,4 @@
-import test from 'ava';
+import test, { ExecutionContext } from 'ava';
 import { BinarySearchTree } from './bst.js';
 
 test('find', (t) => {
@@ -14,22 +14,7 @@ test('find', (t) => {
   tree.add(78);
   tree.add(23);
 
-  const node = tree.find(33);
-  if (!node) {
-    return t.fail('node not found');
-  }
-
-  if (!node.left) {
-    return t.fail('node.left is empty');
-  }
-
-  if (!node.right) {
-    return t.fail('node.right is empty');
-  }
-
-  t.is(node.value, 33);
-  t.is(node.left.value, 23);
-  t.is(node.right.value, 78);
+  testNode(t, tree, 33, 23, 78);
 });
 
 test('add', (t) => {
@@ -41,48 +26,75 @@ test('add', (t) => {
   tree.add(25);
   tree.add(3);
   tree.add(24);
-  const root = tree.add(18);
+  tree.add(18);
 
   t.deepEqual([...tree], [3, 5, 10, 18, 20, 24, 25]);
+  testNode(t, tree, 10, 5, 20);
+  testNode(t, tree, 5, 3, void 0);
+  testNode(t, tree, 3, void 0, void 0);
 
-  let n = root;
-  while (n.left) {
-    n = n.left;
-  }
-
-  t.is(n.value, 3);
+  testNode(t, tree, 20, 18, 25);
+  testNode(t, tree, 18, void 0, void 0);
+  testNode(t, tree, 25, 24, void 0);
+  testNode(t, tree, 24, void 0, void 0);
 });
 
 test('delete', (t) => {
   const tree = new BinarySearchTree<number>((a, b) => a - b);
 
-  tree.add(89);
-  tree.add(-0);
-  tree.add(10);
+  tree.add(8);
+  tree.add(6);
+  tree.add(5);
+  tree.add(7);
   tree.add(12);
-  tree.add(-17);
-  tree.add(100);
-  tree.add(99);
+  tree.add(14);
+  tree.add(10);
+  tree.add(11);
+  tree.add(9);
 
   tree.delete(10);
-  t.deepEqual([...tree], [-17, -0, 12, 89, 99, 100]);
-
   t.is(tree.find(10), undefined);
+  t.deepEqual([...tree], [5, 6, 7, 8, 9, 11, 12, 14]);
 
-  const root = tree.find(0);
-  if (!root) {
-    return t.fail('root not found');
-  }
+  testNode(t, tree, 12, 11, 14);
 
-  if (!root.left) {
-    return t.fail('root.left is empty');
-  }
+  tree.delete(8);
+  t.is(tree.root()?.value, 9);
 
-  if (!root.right) {
-    return t.fail('root.left is empty');
-  }
+  tree.delete(14);
+  t.is(tree.root()?.value, 9);
+  t.deepEqual([...tree], [5, 6, 7, 9, 11, 12]);
 
-  t.is(root.value, -0);
-  t.is(root.left.value, -17);
-  t.is(root.right.value, 12);
+  tree.delete(9);
+  t.is(tree.root()?.value, 11);
+
+  tree.delete(11);
+  t.is(tree.root()?.value, 12);
+
+  tree.delete(12);
+  t.is(tree.root()?.value, 6);
+
+  tree.delete(6);
+  t.is(tree.root()?.value, 7);
+
+  tree.delete(7);
+  t.is(tree.root()?.value, 5);
+
+  tree.delete(5);
+  t.is(tree.root(), undefined);
+  t.is([...tree].length, 0);
 });
+
+function testNode(
+  t: ExecutionContext<unknown>,
+  tree: BinarySearchTree<number>,
+  findVal: number,
+  leftVal?: number,
+  rightVal?: number,
+) {
+  const node = tree.find(findVal);
+
+  t.is(node?.value, findVal);
+  t.is(node?.left?.value, leftVal, 'left value is not equal');
+  t.is(node?.right?.value, rightVal, 'right value is not equal');
+}

@@ -1,4 +1,5 @@
-import { insert, repairTree } from './insert.js';
+import { insert, repairInsert } from './insert.js';
+import { remove } from './remove.js';
 import { Comparator, DeepReadonly, Node, RBTree } from './types.js';
 
 export class RedBlackTree<T> implements RBTree<T> {
@@ -14,9 +15,10 @@ export class RedBlackTree<T> implements RBTree<T> {
     return this._root;
   }
 
-  public add(val: T): Readonly<Node<T>> {
+  public add(val: T): DeepReadonly<Node<T>> {
     const node = insert(this.compare, { value: val } as Node<T>, this._root);
-    repairTree(node);
+
+    repairInsert(node);
 
     let root = node;
     while (root.parent) {
@@ -28,7 +30,8 @@ export class RedBlackTree<T> implements RBTree<T> {
   }
 
   public delete(val: T): DeepReadonly<Node<T>> | undefined {
-    throw new Error('Method not implemented.');
+    this._root = remove(this.compare, val, this._root);
+    return this._root;
   }
 
   public find(val: T, root = this._root): DeepReadonly<Node<T>> | undefined {

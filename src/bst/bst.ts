@@ -26,7 +26,8 @@ export class BinarySearchTree<T> implements BSTree<T> {
   }
 
   public delete(val: T): DeepReadonly<Node<T>> | undefined {
-    return remove(this.compare, val, this._root);
+    this._root = remove(this.compare, val, this._root);
+    return this._root;
   }
 
   public find(val: T, root = this._root): DeepReadonly<Node<T>> | undefined {
