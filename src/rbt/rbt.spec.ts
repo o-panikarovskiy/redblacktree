@@ -139,15 +139,6 @@ test('delete', (t) => {
     void 0, // right
     { value: 12, color: 'R' }, // parent
   );
-
-  tree.delete(8);
-  testNode(
-    t,
-    tree,
-    { value: 7, color: 'B' }, // find
-    { value: 6, color: 'B' }, // left
-    { value: 12, color: 'R' }, // right
-  );
 });
 
 function testNode(
