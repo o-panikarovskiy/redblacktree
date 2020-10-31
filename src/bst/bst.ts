@@ -1,5 +1,5 @@
+import { remove } from './delete.js';
 import { insert } from './insert.js';
-import { remove } from './remove.js';
 import { BSTree, Comparator, DeepReadonly, Node } from './types.js';
 
 export class BinarySearchTree<T> implements BSTree<T> {
@@ -22,7 +22,7 @@ export class BinarySearchTree<T> implements BSTree<T> {
       this._root = node;
     }
 
-    return this._root;
+    return node;
   }
 
   public delete(val: T): DeepReadonly<Node<T>> | undefined {

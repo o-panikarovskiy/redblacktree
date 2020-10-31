@@ -4,7 +4,7 @@ import { BinarySearchTree } from './bst.js';
 test('find', (t) => {
   const tree = new BinarySearchTree<number>((a, b) => a - b);
 
-  t.is(tree.find(0), undefined);
+  t.is(tree.find(0), void 0);
 
   tree.add(100);
   tree.add(-5);
@@ -53,7 +53,7 @@ test('delete', (t) => {
   tree.add(9);
 
   tree.delete(10);
-  t.is(tree.find(10), undefined);
+  t.is(tree.find(10), void 0);
   t.deepEqual([...tree], [5, 6, 7, 8, 9, 11, 12, 14]);
 
   testNode(t, tree, 12, 11, 14);
@@ -81,7 +81,7 @@ test('delete', (t) => {
   t.is(tree.root()?.value, 5);
 
   tree.delete(5);
-  t.is(tree.root(), undefined);
+  t.is(tree.root(), void 0);
   t.is([...tree].length, 0);
 });
 

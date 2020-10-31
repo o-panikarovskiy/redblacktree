@@ -6,7 +6,7 @@ type ExpectedNode = { value: number; color: 'R' | 'B' };
 test('find', (t) => {
   const tree = new RedBlackTree<number>((a, b) => a - b);
 
-  t.is(tree.find(0), undefined);
+  t.is(tree.find(0), void 0);
 
   tree.add(10);
   tree.add(5);
@@ -111,6 +111,42 @@ test('add', (t) => {
     { value: 22, color: 'R' }, // left
     { value: 27, color: 'R' }, // right
     { value: 17, color: 'R' }, // parent
+  );
+});
+
+test('delete', (t) => {
+  const tree = new RedBlackTree<number>((a, b) => a - b);
+
+  tree.add(8);
+  tree.add(6);
+  tree.add(5);
+  tree.add(7);
+  tree.add(12);
+  tree.add(14);
+  tree.add(10);
+  tree.add(11);
+  tree.add(9);
+
+  tree.delete(10);
+  t.is(tree.find(10), void 0);
+  t.deepEqual([...tree], [5, 6, 7, 8, 9, 11, 12, 14]);
+
+  testNode(
+    t,
+    tree,
+    { value: 11, color: 'B' }, // find
+    { value: 9, color: 'R' }, // left
+    void 0, // right
+    { value: 12, color: 'R' }, // parent
+  );
+
+  tree.delete(8);
+  testNode(
+    t,
+    tree,
+    { value: 7, color: 'B' }, // find
+    { value: 6, color: 'B' }, // left
+    { value: 12, color: 'R' }, // right
   );
 });
 

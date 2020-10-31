@@ -6,18 +6,6 @@ export function grandparent<T>(n?: Node<T>) {
   }
 }
 
-export function uncle<T>(n?: Node<T>) {
-  return sibling(n?.parent);
-}
-
-export function sibling<T>(n?: Node<T>) {
-  if (n?.parent?.left === n) {
-    return n?.parent?.right;
-  }
-
-  return n?.parent?.left;
-}
-
 export function rotateLeft<T>(n: Node<T>) {
   const pivot = n.right as Node<T>;
 
@@ -58,13 +46,4 @@ export function rotateRight<T>(n: Node<T>) {
 
   n.parent = pivot;
   pivot.right = n;
-}
-
-export function replaceNode<T>(n: Node<T>, child: Node<T>) {
-  child.parent = n.parent;
-  if (n === n.parent?.left) {
-    n.parent.left = child;
-  } else if (n.parent) {
-    n.parent.right = child;
-  }
 }
